@@ -4,5 +4,12 @@
 # Uso: nome_variavel = expressão
 nome_completo = 'Luiz Gustavo de Oliveira Cunha'
 soma_dois_mais_dois = 2 + 2
-print(nome_completo)
-print(soma_dois_mais_dois) 
+int_um = int('1')
+print(int_um, type(int(int_um)))
+print(nome_completo, soma_dois_mais_dois)
+
+nome = 'Luiz'
+idade = 20
+maior_de_idade = idade >= 18
+print('Nome:', nome, ', idade:', idade)
+print('É maior?', maior_de_idade)
