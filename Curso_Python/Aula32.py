@@ -22,11 +22,11 @@ hora_str = input('Digite a hora atual (0-23): ')
 
 try:
     hora = int(hora_str)
-    if hora >= 0 or hora <= 11:
+    if hora >= 0 and hora <= 11:
         print(f'Bom dia! São {hora} horas.')
-    elif hora >= 12 or hora <= 17:
+    elif hora >= 12 and hora <= 17:
         print(f'Boa tarde! São {hora} horas.')
-    elif hora >= 18 or hora <= 23:
+    elif hora >= 18 and hora <= 23:
         print(f'Boa noite! São {hora} horas.')
     else:
         print('Não conheço essa hora')
