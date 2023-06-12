@@ -3,7 +3,9 @@ Escopo de funções em Python
 Escopo significa o local onde aquele código pode atingir.
 Existe o escopo global e local.
 O escopo global é o escopo onde todo o código é alcanvável.
-O escolo logcal é o escopo onde apenas nomes do mesmo local podem ser lançados.
+O escolo logcal é o escopo onde apenas nomes do mesmo local podem ser alcançados.
+Não temos acesso a nomes de escopo internos nos escopos externos. 
+A palavra global faz uma variável do escopo externo sera mesma no escopo interno.
 """
 x = 1
 
