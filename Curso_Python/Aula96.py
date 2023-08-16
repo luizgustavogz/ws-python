@@ -29,7 +29,7 @@
 # print(sys)
 
 
-# alis 2 - from nome_modulo import objeto as alias
+# alias 2 - from nome_modulo import objeto as alias
 
 # from sys import exit as ex 
 # from sys import platform as pf
