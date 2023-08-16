@@ -12,3 +12,7 @@ print(modulo.soma_do_modulo(1, 2))
 print(sdm(2, 3))
 print(variavel)
 print(nova_variavel)
+
+from Aula99_package.modulo import soma_do_modulo, fala_oi
+
+fala_oi()
