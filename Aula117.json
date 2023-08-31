@@ -1,0 +1,24 @@
+{
+  "nome": "Luiz Gustavo",
+  "sobrenome": "Oliveira Cunha",
+  "enderecos": [
+    {
+      "rua": "Rua 1",
+      "numero": 123
+    },
+    {
+      "rua": "Rua 2",
+      "numero": 321
+    }
+  ],
+  "altura": 1.8,
+  "idade": 21,
+  "numeros_preferidos": [
+    5,
+    7,
+    18,
+    22
+  ],
+  "dev": true,
+  "nada": null
+}
