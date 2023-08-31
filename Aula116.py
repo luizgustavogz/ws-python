@@ -1,3 +1,4 @@
+import os
 """
 Criando arquivos com Python
 Usamos a função open para abrir um arquivo em Python
@@ -69,3 +70,6 @@ with open(path_file, 'w', encoding='utf8') as file:
     file.writelines(
         ('Linha 3\n', 'Linha 4\n')
     )
+
+# os.remove(path_file)    # ou os.unlink(path_file)
+# os.rename(path_file, 'Aula116_renomeado.txt')
