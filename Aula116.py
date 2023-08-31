@@ -26,28 +26,46 @@ path_file = 'Aula116.txt'
 # ...
 # file.close()
 
-with open(path_file, 'w+') as file:
+
+# with open(path_file, 'w+') as file:
+#     file.write('Linha 1\n')
+#     file.write('Linha 2\n')
+#     file.writelines(
+#         ('Linha 3\n', 'Linha 4\n')
+#     )
+#     file.seek(0, 0)
+#     print(file.read())
+
+#     print('Lendo:')
+#     file.seek(0, 0)
+#     print(file.readline(), end='')
+#     print(file.readline().strip())
+#     print(file.readline().strip())
+
+#     print('\nReadlines:')
+#     file.seek(0, 0)
+#     for linha in file.readlines():
+#         print(linha.strip())
+
+
+# print('#' * 10)
+
+# with open(path_file, 'r') as file:
+#     print(file.read())
+
+
+# Bom exemplo para arquivos de log
+# with open(path_file, 'a+') as file:
+#     file.write('Linha 1\n')
+#     file.write('Linha 2\n')
+#     file.writelines(
+#         ('Linha 3\n', 'Linha 4\n')
+#     )
+
+with open(path_file, 'w', encoding='utf8') as file:
+    file.write('Atenção\n')
     file.write('Linha 1\n')
     file.write('Linha 2\n')
     file.writelines(
         ('Linha 3\n', 'Linha 4\n')
     )
-    file.seek(0, 0)
-    print(file.read())
-
-    print('Lendo:')
-    file.seek(0, 0)
-    print(file.readline(), end='')
-    print(file.readline().strip())
-    print(file.readline().strip())
-
-    print('\nReadlines:')
-    file.seek(0, 0)
-    for linha in file.readlines():
-        print(linha.strip())
-
-
-print('#' * 10)
-
-with open(path_file, 'r') as file:
-    print(file.read())
