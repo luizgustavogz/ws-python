@@ -96,7 +96,7 @@ while True:
     }
     comando = comandos.get(tarefa) if comandos.get(tarefa) is not None else \
         comandos['adicionar']
-    comando()
+    comando()  # pyright: ignore[reportOptionalCall]
     salvar(tarefas, CAMINHO_ARQUIVO)
 
     # if tarefa == 'listar':
