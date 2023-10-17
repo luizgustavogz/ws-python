@@ -47,7 +47,7 @@
     "reportUnknownLambdaType": "none",
     "reportUnknownParameterType": "none"
   },
-  // "python.defaultInterpreterPath": "./venv/bin/python",
+  "python.defaultInterpreterPath": "./venv/bin/python",
   "python.analysis.typeCheckingMode": "basic",
   "cSpell.enabled": true,  
   }
