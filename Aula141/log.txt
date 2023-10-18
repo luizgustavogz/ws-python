@@ -1,0 +1,4 @@
+Error: Teste log (LogFileMixin)
+Success: Teste log (LogFileMixin)
+Success: Samsung Galaxy S está ligado (Smartphone)
+Error: iPhone 14 está desligado (Smartphone)
