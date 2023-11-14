@@ -28,7 +28,17 @@ class MyOpen:
 
     def __exit__(self, class_exception, exception_, traceback_):
         print('Fechando arquivo')
-        self._arquivo.close()
+        if self._arquivo is not None:
+            self._arquivo.close()
+
+        # raise class_exception(*exception_.args).with_traceback(traceback_)
+
+        # print (class_exception)
+        # print (exception_)
+        # print (traceback_)
+        # exception_.add_note('Minha nota')
+
+        # return True  # Suprime a exceção
 
 
 # instancia = MyOpen('Aula149.txt', 'w')
