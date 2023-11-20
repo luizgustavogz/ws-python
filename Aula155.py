@@ -51,6 +51,14 @@ class Meta(type):
 
         return cls
 
+    def __call__(cls, *args, **kwargs):
+        instancia = super().__call__(*args, **kwargs)
+
+        if 'nome' not in instancia.__dict__:
+            raise NotImplementedError('Crie o attr nome')
+
+        return instancia
+
 
 class Pessoa(metaclass=Meta):
     # falar = 123
