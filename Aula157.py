@@ -1,7 +1,7 @@
 # Enum -> Enumerações
 # Enumerações na programação, são usadas em ocasiões onde temos um determinado
-# número de coisas.
-# Enums têm membris e seus valores são constantes.
+# número de coisas para escolher.
+# Enums têm membros e seus valores são constantes.
 # Enums em Python:
 #     - São um conjunto de nomes simbólicos (membros) ligados a valores únicos;
 #     - Podem ser iterados para retornar seus membros canônicos na ordem
@@ -11,8 +11,10 @@
 # Você poderá usar seu Enum com type annotations, com isinstance e outras
 # coisas relacionadas com tipo.
 # Para obter os dados:
-# chave = Classe.chave.name, Class(valor), Classe['chave']
+# membro = Class(valor), Classe['chave']
+# chave = Classe.chave.name
 # valor = Classe.chave.value
+
 def mover(direcao):
     print(f'Movendo para {direcao}')
 
