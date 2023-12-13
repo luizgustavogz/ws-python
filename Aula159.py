@@ -8,23 +8,29 @@
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(init=False)
 class Pessoa:
     nome: str
     sobrenome: str
-    # idade: int
 
-    @property
-    def nome_completo(self) -> str:
-        return f'{self.nome} {self.sobrenome}'
+    def __init__(self, nome, sobrenome) -> None:
+        self.nome = nome
+        self.sobrenome = sobrenome
+        self.nome_completo = f'{self.nome} {self.sobrenome}'
 
-    @nome_completo.setter
-    def nome_completo(self, nome_completo: str) -> None:
-        self.nome, self.sobrenome = nome_completo.split(' ', maxsplit=1)
+    # def __post_init__(self) -> None:
+    #     self.nome_completo = f'{self.nome} {self.sobrenome}'
+
+    # @property
+    # def nome_completo(self) -> str:
+    #     return f'{self.nome} {self.sobrenome}'
+
+    # @nome_completo.setter
+    # def nome_completo(self, nome_completo: str) -> None:
+    #     self.nome, self.sobrenome = nome_completo.split(' ', maxsplit=1)
 
 
 if __name__ == '__main__':
     p1 = Pessoa('Luiz', 'Cunha')
-    p1.nome_completo = 'Luiz Gustavo de Oliveira Cunha'
     print(p1)
     print(p1.nome_completo)
