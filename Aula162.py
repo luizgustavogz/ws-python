@@ -11,7 +11,7 @@
 # Instalando o pytz
 # pip install pytz types-pytz
 from datetime import datetime
-from pytz import timezone, utc
+from pytz import timezone
 
 # data_str_data = '2022/02/22 07:49:23'
 # data_str_fmt = '%Y/%m/%d %H:%M:%S'
