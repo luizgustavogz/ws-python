@@ -23,6 +23,12 @@ from pytz import timezone, utc
 # data = datetime.strptime(data_str_data, data_str_fmt)
 # print(data)
 
-data = datetime.now(timezone('Asia/Tokyo'))
-data = datetime(2023, 2, 22, 7, 49, 23, tzinfo=timezone('Asia/Tokyo'))
-print(data)
+
+# data = datetime.now(timezone('Asia/Tokyo'))
+# data = datetime(2023, 2, 22, 7, 49, 23, tzinfo=timezone('Asia/Tokyo'))
+# print(data)
+
+
+data = datetime.now()
+print(data.timestamp())  # timestamp é o tempo em segundos desde 01/01/1970
+print(datetime.fromtimestamp(1703170025))
