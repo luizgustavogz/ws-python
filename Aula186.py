@@ -6,7 +6,7 @@ from zipfile import ZipFile
 
 # Caminhos
 CAMINHO_RAIZ = Path(__file__).parent
-CAMINHO_ZIP_DIR = CAMINHO_RAIZ / 'Aula_186_diretorio_zip'
+CAMINHO_ZIP_DIR = CAMINHO_RAIZ / 'Aula186_diretorio_zip'
 CAMINHO_COMPACTADO = CAMINHO_RAIZ / 'Aula186_compactado.zip'
 CAMINHO_DESCOMPACTADO = CAMINHO_RAIZ / 'Aula186_descompactado'
 
@@ -21,11 +21,27 @@ shutil.rmtree(CAMINHO_DESCOMPACTADO, ignore_errors=True)
 CAMINHO_ZIP_DIR.mkdir(exist_ok=True)
 
 
-def criar_arquivos(qtd: int, zip_dir: Path):
+def create_files(qtd: int, zip_dir: Path):
     for i in range(qtd):
-        texto = 'arquivo_%s' % i
-        with open(zip_dir / f'{texto}.txt', 'w') as arquivo:
-            arquivo.write(texto)
+        text = 'arquivo_%s' % i
+        with open(zip_dir / f'{text}.txt', 'w') as file:
+            file.write(text)
 
 
-criar_arquivos(10, CAMINHO_ZIP_DIR)
+create_files(10, CAMINHO_ZIP_DIR)
+
+# Criando um zip e adicionando arquivos
+with ZipFile(CAMINHO_COMPACTADO, 'w') as zip:
+    for root, dirs, files in os.walk(CAMINHO_ZIP_DIR):
+        for file in files:
+            # print(file)
+            zip.write(os.path.join(root, file), file)
+
+# Lendo arquivos de um zip
+with ZipFile(CAMINHO_COMPACTADO, 'r') as zip:
+    for file in zip.namelist():
+        print(file)
+
+# Extraindo arquivos de um zip
+with ZipFile(CAMINHO_COMPACTADO, 'r') as zip:
+    zip.extractall(CAMINHO_DESCOMPACTADO)
