@@ -13,8 +13,11 @@ from bs4 import BeautifulSoup
 
 url = 'http://localhost:3333/'
 response = requests.get(url)
-raw_html = response.text  # HTML cru
-parsed_html = BeautifulSoup(raw_html, 'html.parser')  # HTML formatado
+bytes_html = response.content  # HTML cru
+# raw_html = response.text  # HTML cru
+parsed_html = BeautifulSoup(
+    bytes_html, 'html.parser', from_encoding='utf-8'
+)  # HTML formatado
 
 # print(raw_html)
 # if parsed_html.title is not None:
