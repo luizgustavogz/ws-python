@@ -59,5 +59,9 @@ if __name__ == '__main__':
     search_box.send_keys('Hello World!')
     search_box.send_keys(Keys.ENTER)
 
+    results = browser.find_element(By.ID, 'search')
+    links = results.find_elements(By.TAG_NAME, 'a')
+    links[0].click()
+
     # Espera 10 segundos
     sleep(TIME_TO_WAIT)
