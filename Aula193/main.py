@@ -5,6 +5,7 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -39,7 +40,7 @@ def make_chrome_browser(*options: str) -> webdriver.Chrome:
 
 
 if __name__ == '__main__':
-    TIME_TO_WAIT = 5
+    TIME_TO_WAIT = 10
 
     # Exemplo
     # options = '--headless', '--disable-gpu'
@@ -56,6 +57,7 @@ if __name__ == '__main__':
         )
     )
     search_box.send_keys('Hello World!')
+    search_box.send_keys(Keys.ENTER)
 
     # Espera 10 segundos
     sleep(TIME_TO_WAIT)
