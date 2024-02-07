@@ -1,9 +1,8 @@
-"""
-# (Parte 1) Threads - Executando processamentos em paralelo
-from threading import Thread
+from threading import Lock, Thread
 from time import sleep
 
-
+"""
+# (Parte 1) Threads - Executando processamentos em paralelo
 class MeuThread(Thread):
     def __init__(self, texto: str, tempo: int):
         self.texto = texto
@@ -30,13 +29,8 @@ for i in range(20):
     sleep(1)
 """
 
-
 """
 # (Parte 2) Threads - Executando processamentos em paralelo
-from threading import Thread
-from time import sleep
-
-
 def vai_demorar(texto: str, tempo: int):
     sleep(tempo)
     print(texto)
@@ -56,42 +50,18 @@ for i in range(20):
     sleep(.5)
 """
 
-
 # (Parte 3) Threads - Executando processamentos em paralelo
-from threading import Lock, Thread
-from time import sleep
-
-
 class Ingressos:
-    
-    # Classe que vende ingressos
-    
-
     def __init__(self, estoque: int):
-        #  Inicializando...
-
-        # :param estoque: quantidade de ingressos em estoque
-        
         self.estoque = estoque
-        # Nosso cadeado
-        self.lock = Lock()
+        self.lock = Lock()  # Criando um lock
 
     def comprar(self, quantidade: int):
-        
-        # Compra determinada quantidade de ingressos
-
-        # :param quantidade: A quantidade de ingressos que deseja comprar
-        # :type quantidade: int
-        # :return: Nada
-        # :rtype: None
-        
-        # Tranca o método
-        self.lock.acquire()
+        self.lock.acquire()  # Bloqueia o método
 
         if self.estoque < quantidade:
             print('Não temos ingressos suficientes.')
-            # Libera o método
-            self.lock.release()
+            self.lock.release()  # Libera o método
             return
 
         sleep(1)
@@ -100,8 +70,7 @@ class Ingressos:
         print(f'Você comprou {quantidade} ingresso(s). '
               f'Ainda temos {self.estoque} em estoque.')
 
-        # Libera o método
-        self.lock.release()
+        self.lock.release()  # Libera o método
 
 
 if __name__ == '__main__':
@@ -111,4 +80,4 @@ if __name__ == '__main__':
         t = Thread(target=ingressos.comprar, args=(i,))
         t.start()
 
-    print(ingressos.estoque)
+    print('Ingressos em estoque =', ingressos.estoque)
