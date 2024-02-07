@@ -7,7 +7,7 @@
 # https://pypdf2.readthedocs.io/en/latest/
 # pip install pypdf2
 from pathlib import Path
-from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 
 ROOT_FOLDER = Path(__file__).parent
 ORIGINAL_FOLDER = ROOT_FOLDER / 'original_pdfs'
@@ -18,6 +18,7 @@ REPORT_BACEN = ORIGINAL_FOLDER / 'R20230210.pdf'
 
 NEW_FOLDER.mkdir(exist_ok=True)
 
+# 1. Ler o arquivo PDF
 reader = PdfReader(REPORT_BACEN)
 
 # print(len(reader.pages))
@@ -33,8 +34,23 @@ img0 = page0.images[0]
 #     fp.write(img0.data)
 
 
+# 2. Escrever um novo arquivo PDF
 for i, page in enumerate(reader.pages):
     writer = PdfWriter()
     with open(NEW_FOLDER / f'page{i}.pdf', 'wb') as file:
         writer.add_page(page)
         writer.write(file)
+
+
+# 3. Unir arquivos PDF
+files = [
+    NEW_FOLDER / 'page1.pdf',
+    NEW_FOLDER / 'page0.pdf',
+]
+
+merger = PdfMerger()
+for file in files:
+    merger.append(file)
+
+merger.write(NEW_FOLDER / 'merged.pdf')
+merger.close()
