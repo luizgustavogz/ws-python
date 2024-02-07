@@ -31,3 +31,10 @@ img0 = page0.images[0]
 # print(page0.extract_text())
 # with open(NEW_FOLDER / img0.name, 'wb') as fp:
 #     fp.write(img0.data)
+
+
+for i, page in enumerate(reader.pages):
+    writer = PdfWriter()
+    with open(NEW_FOLDER / f'page{i}.pdf', 'wb') as file:
+        writer.add_page(page)
+        writer.write(file)
