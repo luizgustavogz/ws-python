@@ -11,3 +11,4 @@ print(a + b)  # 6
 
 # Para rodar o código, basta digitar no terminal:
 # jupyter notebook
+# pip install notebook
