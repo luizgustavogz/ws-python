@@ -22,9 +22,9 @@
     "editor.insertSpaces": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit",
-      "source.fixAll.unusedImports": "explicit",
-      "source.organizeImports": "explicit"
+      "source.fixAll": true,
+      "source.fixAll.unusedImports": true,
+      "source.organizeImports": true
     }
   },
   "python.languageServer": "Pylance",
