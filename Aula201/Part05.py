@@ -1,15 +1,7 @@
-# QMainWindow e centralWidget
-# -> QApplication (app)
-#   -> QMainWindow (window->setCentralWidget)
-#       -> CentralWidget (central_widget)
-#           -> Layout (layout)
-#               -> Widget 1 (btn)
-#               -> Widget 2 (btn2)
-#               -> Widget 3 (btn3)
-#   -> show
-# -> exec
+# O básico sobre Signal e Slots (eventos e documentação)
 import sys
 
+from PySide6.QtCore import Slot
 from PySide6.QtWidgets import (QApplication, QPushButton, QWidget,
                                QGridLayout, QMainWindow)
 
@@ -36,8 +28,23 @@ layout.addWidget(btn2, 1, 2, 1, 1)
 layout.addWidget(btn3, 3, 1, 1, 2)
 
 
+@Slot()
 def slot_example(status_bar):
-    status_bar.showMessage("Slot executado")
+    def inner():
+        status_bar.showMessage("Slot executado")
+    return inner
+
+
+@Slot()
+def slot_example2(checked):
+    print('Está marcado?', checked)
+
+
+@Slot()
+def slot_example3(action):
+    def inner():
+        slot_example2(action.isChecked())
+    return inner
 
 
 # statusBar
@@ -48,8 +55,14 @@ status_bar.showMessage("Status Bar")
 menu_bar = window.menuBar()
 menu = menu_bar.addMenu("Primeiro menu")
 action = menu.addAction("Primeira ação")
-action.triggered.connect(lambda: slot_example(status_bar))
+action.triggered.connect(slot_example(status_bar))
 
+action2 = menu.addAction("Segunda ação")
+action2.setCheckable(True)
+action2.toggled.connect(slot_example2)
+action2.hovered.connect(slot_example3(action2))
+
+btn.clicked.connect(slot_example3(action2))
 
 window.show()
 app.exec()  # O loop da aplicação
