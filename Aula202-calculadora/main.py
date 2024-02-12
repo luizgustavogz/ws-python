@@ -15,6 +15,11 @@ if __name__ == '__main__':
     window.setWindowIcon(icon)
     app.setWindowIcon(icon)
 
+    if sys.platform.startswith('win'):
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+            u'CompanyName.ProductName.SubProduct.VersionInformation')
+
     # Executa tudo
     window.adjustFixedSize()
     window.show()
