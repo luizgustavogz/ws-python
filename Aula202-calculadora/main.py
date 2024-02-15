@@ -1,6 +1,7 @@
 import sys
 
 from main_window import MainWindow
+from info import Info
 from display import Display
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
@@ -21,9 +22,12 @@ if __name__ == '__main__':
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
             u'CompanyName.ProductName.SubProduct.VersionInformation')
 
+    # Info
+    info = Info('2.0 ^ 10 = 1024')
+    window.addToVLayout(info)
+
     # Display
     display = Display()
-    # display.setPlaceholderText('Digite algo...')
     window.addToVLayout(display)
 
     # Executa tudo
