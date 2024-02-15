@@ -146,6 +146,9 @@ class ButtonsGrid(QGridLayout):
                 self._makeSlot(self._operatorClicked, button)
             )
 
+        if text == '=':
+            self._connectButtonClicked(button, self._eq)
+
     def _makeSlot(self, func, *args, **kwargs):
         @Slot(bool)
         def realSlot(_):
@@ -183,6 +186,26 @@ class ButtonsGrid(QGridLayout):
 
         self._op = btnText
         self.equation = f'{self._leftNum} {self._op} ??'
+
+    def _eq(self):
+        displayText = self.display.text()
+
+        if not isValidNumber(displayText):
+            return
+
+        self._rightNum = float(displayText)
+        self.equation = f'{self._leftNum} {self._op} {self._rightNum}'
+        result = 0.0
+
+        try:
+            result = eval(self.equation)
+        except ZeroDivisionError:
+            print('Erro: Divisão por zero')
+
+        self.display.clear()
+        self.info.setText(f'{self.equation} = {result}')
+        self._leftNum = result
+        self._rightNum = None
 
 
 # QSS - Estilos do QT for Python
