@@ -23,7 +23,7 @@ if __name__ == '__main__':
             u'CompanyName.ProductName.SubProduct.VersionInformation')
 
     # Info
-    info = Info('2.0 ^ 10 = 1024')
+    info = Info('Sua conta')
     window.addWidgetToVLayout(info)
 
     # Display
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     window.addWidgetToVLayout(display)
 
     # Grid
-    buttonsGrid = ButtonsGrid(display)
+    buttonsGrid = ButtonsGrid(display, info)
     window.addLayoutToVLayout(buttonsGrid)
 
     # Executa tudo
