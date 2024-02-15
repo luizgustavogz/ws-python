@@ -141,6 +141,9 @@ class ButtonsGrid(QGridLayout):
         if text == 'C':
             self._connectButtonClicked(button, self._clear)
 
+        if text == '◀':
+            self._connectButtonClicked(button, self.display.backspace)
+
         if text in '+-/*^':
             self._connectButtonClicked(
                 button,
