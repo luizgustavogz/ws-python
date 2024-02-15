@@ -89,6 +89,12 @@ class ButtonsGrid(QGridLayout):
         self.display = display
         self.info = info
         self._equation = ''
+        self._equationInitialValue = 'Sua conta'
+        self._leftNum = None
+        self._rightNum = None
+        self._op = None
+
+        self.equation = self._equationInitialValue
         self._makeGrid()
 
     @property
@@ -134,6 +140,12 @@ class ButtonsGrid(QGridLayout):
         if text == 'C':
             self._connectButtonClicked(button, self._clear)
 
+        if text in '+-/*':
+            self._connectButtonClicked(
+                button,
+                self._makeSlot(self._operatorClicked, button)
+            )
+
     def _makeSlot(self, func, *args, **kwargs):
         @Slot(bool)
         def realSlot(_):
@@ -150,7 +162,27 @@ class ButtonsGrid(QGridLayout):
         self.display.insert(buttonText)
 
     def _clear(self):
+        self._leftNum = None
+        self._rightNum = None
+        self._op = None
+        self.equation = self._equationInitialValue
         self.display.clear()
+
+    def _operatorClicked(self, button):
+        btnText = button.text()  # Operador (+ - * /)
+        displayText = self.display.text()  # Deverá ser _leftNum
+        self.display.clear()  # Limpa o display
+
+        # Se a pessoa clicou no operador sem ter digitado um número
+        if not isValidNumber(displayText) and self._leftNum is None:
+            return
+
+        # Se _leftNum já foi definido, aguarda _rightNum
+        if self._leftNum is None:
+            self._leftNum = float(displayText)
+
+        self._op = btnText
+        self.equation = f'{self._leftNum} {self._op} ??'
 
 
 # QSS - Estilos do QT for Python
