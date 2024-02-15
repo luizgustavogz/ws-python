@@ -3,7 +3,7 @@ import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-from components import MainWindow, Display, Info, setupTheme, Button, ButtonsGrid
+from components import MainWindow, Display, Info, setupTheme, ButtonsGrid
 from variables import WINDOW_ICON_PATH
 
 if __name__ == '__main__':
@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     # Grid
     buttonsGrid = ButtonsGrid()
-    window.vLayout.addLayout(buttonsGrid)
+    window.addLayoutToVLayout(buttonsGrid)
 
     # Executa tudo
     window.adjustFixedSize()

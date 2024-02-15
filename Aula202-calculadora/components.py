@@ -1,4 +1,5 @@
 import qdarktheme
+import re
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
@@ -31,14 +32,17 @@ class MainWindow(QMainWindow):
     def addWidgetToVLayout(self, widget: QWidget) -> None:
         self.vLayout.addWidget(widget)
 
+    def addLayoutToVLayout(self, widget: QGridLayout) -> None:
+        self.vLayout.addLayout(widget)
+
 
 # Classe de display (tela da calculadora)
 class Display(QLineEdit):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.configStyle()
 
-    def configStyle(self):
+    def configStyle(self) -> None:
         self.setStyleSheet(f'font-size: {BIG_FONT_SIZE}px;')
         self.setMinimumHeight(BIG_FONT_SIZE * 2)
         self.setMinimumWidth(MINIMUM_WIDTH)
@@ -52,28 +56,27 @@ class Info(QLabel):
         super().__init__(text, parent)
         self.configStyle()
 
-    def configStyle(self):
+    def configStyle(self) -> None:
         self.setStyleSheet(f'font-size: {SMALL_FONT_SIZE}px;')
         self.setAlignment(Qt.AlignmentFlag.AlignRight)
 
 
 # Classe de botão
 class Button(QPushButton):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.configStyle()
 
-    def configStyle(self):
+    def configStyle(self) -> None:
         font = self.font()
         font.setPixelSize(MEDIUM_FONT_SIZE)
         self.setFont(font)
         self.setMinimumSize(75, 75)
-        self.setProperty('cssClass', 'specialButton')
 
 
 # Classe de grid de botões
 class ButtonsGrid(QGridLayout):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self._gridMask = [
@@ -81,11 +84,30 @@ class ButtonsGrid(QGridLayout):
             ['7', '8', '9', '*'],
             ['4', '5', '6', '-'],
             ['1', '2', '3', '+'],
-            ['', '0', '.', '='],
+            ['0', '', '.', '='],
         ]
+        self._makeGrid()
+
+    def _makeGrid(self) -> None:
+        for rowNum, rowData in enumerate(self._gridMask):
+            for columnNum, buttonText in enumerate(rowData):
+                if buttonText:
+                    button = Button(buttonText)
+                    button.setText(self._gridMask[rowNum][columnNum])
+
+                    if not isNumOrDot(buttonText) and not isEmpty(buttonText):
+                        button.setProperty('cssClass', 'specialButton')
+
+                    if buttonText == '0':
+                        self.addWidget(button, rowNum, columnNum, 1, 2)
+                    else:
+                        self.addWidget(button, rowNum, columnNum)
 
 
+# QSS - Estilos do QT for Python
+# https://doc.qt.io/qtforpython/tutorials/basictutorial/widgetstyling.html
 # Styles - Dark Theme
+# https://pyqtdarktheme.readthedocs.io/en/latest/how_to_use.html
 qss = f"""
     QPushButton[cssClass="specialButton"] {{
         color: #fff;
@@ -102,7 +124,7 @@ qss = f"""
 """
 
 
-def setupTheme():
+def setupTheme() -> None:
     qdarktheme.setup_theme(
         theme='dark',
         corner_shape='rounded',
@@ -116,3 +138,15 @@ def setupTheme():
         },
         additional_qss=qss
     )
+
+
+# Functions - Utils
+NUM_OR_DOT_REGEX = re.compile(r'^[0-9.]$')
+
+
+def isNumOrDot(string: str) -> bool:
+    return bool(NUM_OR_DOT_REGEX.search(string))
+
+
+def isEmpty(string: str) -> bool:
+    return len(string) == 0
