@@ -72,7 +72,6 @@ class Button(QPushButton):
         font.setPixelSize(MEDIUM_FONT_SIZE)
         self.setFont(font)
         self.setMinimumSize(75, 75)
-        self.setCheckable(True)
 
 
 # Classe de grid de botões
@@ -105,7 +104,7 @@ class ButtonsGrid(QGridLayout):
                     self.addWidget(btn, rowNum, columnNum)
 
                     btnSlot = self._makeButtonDisplaySlot(
-                        self._insertButtonTextToDisplay, btn
+                        self._insertButtonTextToDisplay, btn,
                     )
                     btn.clicked.connect(btnSlot)
                 else:
@@ -113,7 +112,7 @@ class ButtonsGrid(QGridLayout):
                     self.addWidget(btn0, rowNum, columnNum, 1, 2)
 
                     btn0Slot = self._makeButtonDisplaySlot(
-                        self._insertButtonTextToDisplay, btn0
+                        self._insertButtonTextToDisplay, btn0,
                     )
                     btn0.clicked.connect(btn0Slot)
 
@@ -125,6 +124,11 @@ class ButtonsGrid(QGridLayout):
 
     def _insertButtonTextToDisplay(self, button):
         buttonText = button.text()
+        newDisplayValue = self.display.text() + buttonText
+
+        if not isValidNumber(newDisplayValue):
+            return
+
         self.display.insert(buttonText)
 
 
@@ -170,6 +174,16 @@ NUM_OR_DOT_REGEX = re.compile(r'^[0-9.]$')
 
 def isNumOrDot(string: str) -> bool:
     return bool(NUM_OR_DOT_REGEX.search(string))
+
+
+def isValidNumber(string: str):
+    valid = False
+    try:
+        float(string)
+        valid = True
+    except ValueError:
+        valid = False
+    return valid
 
 
 def isEmpty(string: str) -> bool:
