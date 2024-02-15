@@ -2,7 +2,7 @@ import qdarktheme
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
-                               QLabel, QPushButton)
+                               QLabel, QPushButton, QGridLayout)
 
 from variables import (BIG_FONT_SIZE, MEDIUM_FONT_SIZE, SMALL_FONT_SIZE,
                        TEXT_MARGIN, MINIMUM_WIDTH, PRIMARY_COLOR,
@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         self.adjustSize()
         self.setFixedSize(self.width(), self.height())
 
-    def addToVLayout(self, widget: QWidget) -> None:
+    def addWidgetToVLayout(self, widget: QWidget) -> None:
         self.vLayout.addWidget(widget)
 
 
@@ -69,6 +69,20 @@ class Button(QPushButton):
         self.setFont(font)
         self.setMinimumSize(75, 75)
         self.setProperty('cssClass', 'specialButton')
+
+
+# Classe de grid de botões
+class ButtonsGrid(QGridLayout):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._gridMask = [
+            ['C', '◀', '^', '/'],
+            ['7', '8', '9', '*'],
+            ['4', '5', '6', '-'],
+            ['1', '2', '3', '+'],
+            ['', '0', '.', '='],
+        ]
 
 
 # Styles - Dark Theme
