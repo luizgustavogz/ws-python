@@ -1,5 +1,6 @@
 import qdarktheme
 import re
+import math
 
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
@@ -140,7 +141,7 @@ class ButtonsGrid(QGridLayout):
         if text == 'C':
             self._connectButtonClicked(button, self._clear)
 
-        if text in '+-/*':
+        if text in '+-/*^':
             self._connectButtonClicked(
                 button,
                 self._makeSlot(self._operatorClicked, button)
@@ -195,17 +196,26 @@ class ButtonsGrid(QGridLayout):
 
         self._rightNum = float(displayText)
         self.equation = f'{self._leftNum} {self._op} {self._rightNum}'
-        result = 0.0
+        result = 'error'
 
         try:
-            result = eval(self.equation)
+            if '^' in self.equation and isinstance(self._leftNum, float):
+                # result = eval(self.equation.replace('^', '**'))
+                result = math.pow(self._leftNum, self._rightNum)
+            else:
+                result = eval(self.equation)
         except ZeroDivisionError:
             print('Erro: Divisão por zero')
+        except OverflowError:
+            print('Erro: Número muito grande')
 
         self.display.clear()
         self.info.setText(f'{self.equation} = {result}')
         self._leftNum = result
         self._rightNum = None
+
+        if result == 'error':
+            self._leftNum = None
 
 
 # QSS - Estilos do QT for Python
