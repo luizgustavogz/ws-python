@@ -111,23 +111,30 @@ class ButtonsGrid(QGridLayout):
 
                     if not isNumOrDot(btnText):
                         btn.setProperty('cssClass', 'specialButton')
+                        self._configSpecialButton(btn)
 
                     self.addWidget(btn, rowNum, columnNum)
 
-                    btnSlot = self._makeButtonDisplaySlot(
-                        self._insertButtonTextToDisplay, btn,
-                    )
-                    btn.clicked.connect(btnSlot)
+                    slot = self._makeSlot(self._insertButtonTextToDisplay, btn)
+                    self._connectButtonClicked(btn, slot)
                 else:
                     btn0 = Button(btnText)
                     self.addWidget(btn0, rowNum, columnNum, 1, 2)
 
-                    btn0Slot = self._makeButtonDisplaySlot(
-                        self._insertButtonTextToDisplay, btn0,
-                    )
-                    btn0.clicked.connect(btn0Slot)
+                    slot0 = self._makeSlot(
+                        self._insertButtonTextToDisplay, btn0)
+                    self._connectButtonClicked(btn0, slot0)
 
-    def _makeButtonDisplaySlot(self, func, *args, **kwargs):
+    def _connectButtonClicked(self, button, slot):
+        button.clicked.connect(slot)
+
+    def _configSpecialButton(self, button):
+        text = button.text()
+
+        if text == 'C':
+            self._connectButtonClicked(button, self._clear)
+
+    def _makeSlot(self, func, *args, **kwargs):
         @Slot(bool)
         def realSlot(_):
             func(*args, **kwargs)
@@ -141,6 +148,9 @@ class ButtonsGrid(QGridLayout):
             return
 
         self.display.insert(buttonText)
+
+    def _clear(self):
+        self.display.clear()
 
 
 # QSS - Estilos do QT for Python
