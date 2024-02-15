@@ -1,7 +1,7 @@
 import qdarktheme
 import re
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
                                QLabel, QPushButton, QGridLayout)
 
@@ -72,11 +72,12 @@ class Button(QPushButton):
         font.setPixelSize(MEDIUM_FONT_SIZE)
         self.setFont(font)
         self.setMinimumSize(75, 75)
+        self.setCheckable(True)
 
 
 # Classe de grid de botões
 class ButtonsGrid(QGridLayout):
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, display: Display, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self._gridMask = [
@@ -86,22 +87,45 @@ class ButtonsGrid(QGridLayout):
             ['1', '2', '3', '+'],
             ['0', '', '.', '='],
         ]
+        self.display = display
         self._makeGrid()
 
     def _makeGrid(self) -> None:
         for rowNum, rowData in enumerate(self._gridMask):
-            for columnNum, buttonText in enumerate(rowData):
-                if buttonText:
-                    button = Button(buttonText)
-                    button.setText(self._gridMask[rowNum][columnNum])
+            for columnNum, btnText in enumerate(rowData):
+                if btnText == '':
+                    continue
 
-                    if not isNumOrDot(buttonText) and not isEmpty(buttonText):
-                        button.setProperty('cssClass', 'specialButton')
+                if not btnText == '0':
+                    btn = Button(btnText)
 
-                    if buttonText == '0':
-                        self.addWidget(button, rowNum, columnNum, 1, 2)
-                    else:
-                        self.addWidget(button, rowNum, columnNum)
+                    if not isNumOrDot(btnText):
+                        btn.setProperty('cssClass', 'specialButton')
+
+                    self.addWidget(btn, rowNum, columnNum)
+
+                    btnSlot = self._makeButtonDisplaySlot(
+                        self._insertButtonTextToDisplay, btn
+                    )
+                    btn.clicked.connect(btnSlot)
+                else:
+                    btn0 = Button(btnText)
+                    self.addWidget(btn0, rowNum, columnNum, 1, 2)
+
+                    btn0Slot = self._makeButtonDisplaySlot(
+                        self._insertButtonTextToDisplay, btn0
+                    )
+                    btn0.clicked.connect(btn0Slot)
+
+    def _makeButtonDisplaySlot(self, func, *args, **kwargs):
+        @Slot(bool)
+        def realSlot(_):
+            func(*args, **kwargs)
+        return realSlot
+
+    def _insertButtonTextToDisplay(self, button):
+        buttonText = button.text()
+        self.display.insert(buttonText)
 
 
 # QSS - Estilos do QT for Python
