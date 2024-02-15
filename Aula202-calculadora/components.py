@@ -1,10 +1,12 @@
 import qdarktheme
 
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLineEdit, QLabel
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
+                               QLabel, QPushButton)
 
-from variables import BIG_FONT_SIZE, MINIMUM_WIDTH, SMALL_FONT_SIZE, \
-    TEXT_MARGIN, PRIMARY_COLOR, DARKER_PRIMARY_COLOR, DARKEST_PRIMARY_COLOR
+from variables import (BIG_FONT_SIZE, MEDIUM_FONT_SIZE, SMALL_FONT_SIZE,
+                       TEXT_MARGIN, MINIMUM_WIDTH, PRIMARY_COLOR,
+                       DARKER_PRIMARY_COLOR, DARKEST_PRIMARY_COLOR)
 
 
 # Classe da janela principal
@@ -55,17 +57,31 @@ class Info(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignRight)
 
 
-# Styles - Tema
+# Classe de botão
+class Button(QPushButton):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.configStyle()
+
+    def configStyle(self):
+        font = self.font()
+        font.setPixelSize(MEDIUM_FONT_SIZE)
+        self.setFont(font)
+        self.setMinimumSize(75, 75)
+        self.setProperty('cssClass', 'specialButton')
+
+
+# Styles - Dark Theme
 qss = f"""
-    PushButton[cssClass="specialButton"] {{
+    QPushButton[cssClass="specialButton"] {{
         color: #fff;
         background: {PRIMARY_COLOR};
     }}
-    PushButton[cssClass="specialButton"]:hover {{
+    QPushButton[cssClass="specialButton"]:hover {{
         color: #fff;
         background: {DARKER_PRIMARY_COLOR};
     }}
-    PushButton[cssClass="specialButton"]:pressed {{
+    QPushButton[cssClass="specialButton"]:pressed {{
         color: #fff;
         background: {DARKEST_PRIMARY_COLOR};
     }}
