@@ -1,11 +1,9 @@
 import sys
 
-from main_window import MainWindow
-from info import Info
-from display import Display
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
-from styles import setupTheme
+
+from components import MainWindow, Display, Info, setupTheme
 from variables import WINDOW_ICON_PATH
 
 if __name__ == '__main__':
