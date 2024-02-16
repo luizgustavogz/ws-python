@@ -4,7 +4,7 @@ import math
 
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
-                               QLabel, QPushButton, QGridLayout)
+                               QLabel, QPushButton, QGridLayout, QMessageBox)
 
 from variables import (BIG_FONT_SIZE, MEDIUM_FONT_SIZE, SMALL_FONT_SIZE,
                        TEXT_MARGIN, MINIMUM_WIDTH, PRIMARY_COLOR,
@@ -35,6 +35,9 @@ class MainWindow(QMainWindow):
 
     def addLayoutToVLayout(self, widget: QGridLayout) -> None:
         self.vLayout.addLayout(widget)
+
+    def makeMsgBox(self):
+        return QMessageBox(self)
 
 
 # Classe de display (tela da calculadora)
@@ -77,7 +80,10 @@ class Button(QPushButton):
 
 # Classe de grid de botões
 class ButtonsGrid(QGridLayout):
-    def __init__(self, display: Display, info: Info, *args, **kwargs) -> None:
+    def __init__(
+            self, display: Display, info: Info, window: MainWindow,
+            *args, **kwargs
+    ) -> None:
         super().__init__(*args, **kwargs)
 
         self._gridMask = [
@@ -89,6 +95,7 @@ class ButtonsGrid(QGridLayout):
         ]
         self.display = display
         self.info = info
+        self.window = window
         self._equation = ''
         self._equationInitialValue = 'Sua conta'
         self._leftNum = None
@@ -182,6 +189,7 @@ class ButtonsGrid(QGridLayout):
 
         # Se a pessoa clicou no operador sem ter digitado um número
         if not isValidNumber(displayText) and self._leftNum is None:
+            self._showError('Você não digitou nada.')
             return
 
         # Se _leftNum já foi definido, aguarda _rightNum
@@ -195,6 +203,7 @@ class ButtonsGrid(QGridLayout):
         displayText = self.display.text()
 
         if not isValidNumber(displayText):
+            self._showError('Conta incompleta.')
             return
 
         self._rightNum = float(displayText)
@@ -208,9 +217,9 @@ class ButtonsGrid(QGridLayout):
             else:
                 result = eval(self.equation)
         except ZeroDivisionError:
-            print('Erro: Divisão por zero')
+            self._showError('Divisão por zero.')
         except OverflowError:
-            print('Erro: Número muito grande')
+            self._showError('Essa conta não pode ser realizada.')
 
         self.display.clear()
         self.info.setText(f'{self.equation} = {result}')
@@ -219,6 +228,32 @@ class ButtonsGrid(QGridLayout):
 
         if result == 'error':
             self._leftNum = None
+
+    def _makeDialog(self, text):
+        msgBox = self.window.makeMsgBox()
+        msgBox.setText(text)
+        msgBox.setInformativeText('Clique em OK para continuar...')
+        return msgBox
+
+    def _showError(self, text):
+        msgBox = self._makeDialog(text)
+        msgBox.setIcon(msgBox.Icon.Critical)
+        msgBox.setWindowTitle('Erro')
+        msgBox.exec()
+
+    def _showInfo(self, text):
+        msgBox = self._makeDialog(text)
+        msgBox.setIcon(msgBox.Icon.Information)
+        msgBox.setWindowTitle('Info')
+        msgBox.exec()
+
+        # msgBox.setStandardButtons(
+        #     msgBox.StandardButton.Ok |
+        #     msgBox.StandardButton.Cancel |
+        #     msgBox.StandardButton.Save
+        # )
+
+        # msgBox.button(msgBox.StandardButton.Cancel).setText('Cancelar')
 
 
 # QSS - Estilos do QT for Python
