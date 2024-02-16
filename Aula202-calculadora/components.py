@@ -2,7 +2,8 @@ import qdarktheme
 import re
 import math
 
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, Signal
+from PySide6.QtGui import QKeyEvent
 from PySide6.QtWidgets import (QMainWindow, QVBoxLayout, QWidget, QLineEdit,
                                QLabel, QPushButton, QGridLayout, QMessageBox)
 
@@ -42,6 +43,10 @@ class MainWindow(QMainWindow):
 
 # Classe de display (tela da calculadora)
 class Display(QLineEdit):
+    eqPressed = Signal()
+    delPressed = Signal()
+    clearPressed = Signal()
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.configStyle()
@@ -52,6 +57,33 @@ class Display(QLineEdit):
         self.setMinimumWidth(MINIMUM_WIDTH)
         self.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.setTextMargins(*[TEXT_MARGIN for _ in range(4)])
+
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        text = event.text().strip()
+        key = event.key()
+        KEYS = Qt.Key
+
+        isEnter = key in [KEYS.Key_Enter, KEYS.Key_Return]
+        isDelete = key in [KEYS.Key_Backspace, KEYS.Key_Delete]
+        isEsc = key in [KEYS.Key_Escape]
+
+        if isEnter:
+            self.eqPressed.emit()
+            return event.ignore()
+
+        if isDelete:
+            self.delPressed.emit()
+            return event.ignore()
+
+        if isEsc:
+            self.clearPressed.emit()
+            return event.ignore()
+
+        # Não passar daqui se não tiver texto
+        if isEmpty(text):
+            return event.ignore()
+
+        print('Digitou:', text)
 
 
 # Classe de informações (acima do display)
@@ -115,6 +147,10 @@ class ButtonsGrid(QGridLayout):
         self.info.setText(value)
 
     def _makeGrid(self) -> None:
+        self.display.eqPressed.connect(lambda: print(123))
+        self.display.delPressed.connect(self.display.backspace)
+        self.display.clearPressed.connect(lambda: print(123))
+
         for rowNum, rowData in enumerate(self._gridMask):
             for columnNum, btnText in enumerate(rowData):
                 if btnText == '':
