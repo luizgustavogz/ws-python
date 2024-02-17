@@ -292,7 +292,7 @@ class ButtonsGrid(QGridLayout):
             self._leftNum = None
 
     @Slot()
-    def _backspace(self):        
+    def _backspace(self):
         self.display.backspace()
         self.display.setFocus()
 
@@ -332,14 +332,17 @@ class ButtonsGrid(QGridLayout):
 qss = f"""
     QPushButton[cssClass="specialButton"] {{
         color: #fff;
+        font-weight: bold;
         background: {PRIMARY_COLOR};
     }}
     QPushButton[cssClass="specialButton"]:hover {{
         color: #fff;
+        font-weight: bold;
         background: {DARKER_PRIMARY_COLOR};
     }}
     QPushButton[cssClass="specialButton"]:pressed {{
         color: #fff;
+        font-weight: bold;
         background: {DARKEST_PRIMARY_COLOR};
     }}
 """
