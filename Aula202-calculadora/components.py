@@ -137,7 +137,7 @@ class ButtonsGrid(QGridLayout):
             ['7', '8', '9', '*'],
             ['4', '5', '6', '-'],
             ['1', '2', '3', '+'],
-            ['0', '', '.', '='],
+            ['N', '0', '.', '='],
         ]
         self.display = display
         self.info = info
@@ -169,27 +169,15 @@ class ButtonsGrid(QGridLayout):
 
         for rowNum, rowData in enumerate(self._gridMask):
             for columnNum, btnText in enumerate(rowData):
-                if btnText == '':
-                    continue
+                btn = Button(btnText)
 
-                if not btnText == '0':
-                    btn = Button(btnText)
+                if not isNumOrDot(btnText) and not isEmpty(btnText):
+                    btn.setProperty('cssClass', 'specialButton')
+                    self._configSpecialButton(btn)
 
-                    if not isNumOrDot(btnText):
-                        btn.setProperty('cssClass', 'specialButton')
-                        self._configSpecialButton(btn)
-
-                    self.addWidget(btn, rowNum, columnNum)
-
-                    slot = self._makeSlot(self._insertToDisplay, btnText)
-                    self._connectButtonClicked(btn, slot)
-                else:
-                    btn0 = Button(btnText)
-                    self.addWidget(btn0, rowNum, columnNum, 1, 2)
-
-                    slot0 = self._makeSlot(
-                        self._insertToDisplay, btnText)
-                    self._connectButtonClicked(btn0, slot0)
+                self.addWidget(btn, rowNum, columnNum)
+                slot = self._makeSlot(self._insertToDisplay, btnText)
+                self._connectButtonClicked(btn, slot)
 
     def _connectButtonClicked(self, button, slot):
         button.clicked.connect(slot)
@@ -202,6 +190,9 @@ class ButtonsGrid(QGridLayout):
 
         if text == '◀':
             self._connectButtonClicked(button, self.display.backspace)
+
+        if text == 'N':
+            self._connectButtonClicked(button, self._invertNumber)
 
         if text in '+-/*^':
             self._connectButtonClicked(
@@ -218,6 +209,16 @@ class ButtonsGrid(QGridLayout):
         def realSlot(_):
             func(*args, **kwargs)
         return realSlot
+
+    @Slot()
+    def _invertNumber(self):
+        displayText = self.display.text()
+
+        if not isValidNumber(displayText):
+            return
+
+        number = convertToNumber(displayText) * -1
+        self.display.setText(str(number))
 
     @Slot()
     def _insertToDisplay(self, text):
@@ -248,7 +249,7 @@ class ButtonsGrid(QGridLayout):
 
         # Se _leftNum já foi definido, aguarda _rightNum
         if self._leftNum is None:
-            self._leftNum = float(displayText)
+            self._leftNum = convertToNumber(displayText)
 
         self._op = text
         self.equation = f'{self._leftNum} {self._op} ??'
@@ -261,7 +262,7 @@ class ButtonsGrid(QGridLayout):
             self._showError('Conta incompleta.')
             return
 
-        self._rightNum = float(displayText)
+        self._rightNum = convertToNumber(displayText)
         self.equation = f'{self._leftNum} {self._op} {self._rightNum}'
         result = 'error'
 
@@ -353,6 +354,15 @@ NUM_OR_DOT_REGEX = re.compile(r'^[0-9.]$')
 
 def isNumOrDot(string: str) -> bool:
     return bool(NUM_OR_DOT_REGEX.search(string))
+
+
+def convertToNumber(string: str):
+    num = float(string)
+
+    if num.is_integer():
+        num = int(num)
+
+    return num
 
 
 def isValidNumber(string: str):
