@@ -1,3 +1,4 @@
+from PySide6.QtCore import Qt
 # pyside6-uic Aula203-qtdesigner/ui/window.ui -o Aula203-qtdesigner/src/window.py
 
 # -*- coding: utf-8 -*-
