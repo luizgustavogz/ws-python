@@ -32,11 +32,17 @@ conn.commit()
 
 # Insere dados
 # CUIDADO: SQL Injection
-cursor.execute(
-    f'INSERT INTO {TABLE_NAME} (name, age, weight) '
-    'VALUES ("Maria", 42, 30), ("João", 32, 50)'
+# ? é um binding/placeholder para o valor que será passado
+sql = f'INSERT INTO {TABLE_NAME} (name, age, weight) VALUES (?, ?, ?)'
+# cursor.execute(sql, ['João', 25, 75.5])
+cursor.executemany(
+    sql,
+    (
+        ('João', 25, 75.5), ('Maria', 30, 60.5)
+    )
 )
 conn.commit()
+print(sql)
 
 cursor.close()
 conn.close()
