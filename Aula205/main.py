@@ -1,4 +1,5 @@
 import sqlite3
+
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).parent
@@ -13,6 +14,7 @@ cursor = conn.cursor()
 cursor.execute(
     f'DELETE FROM {TABLE_NAME}'
 )
+# Reseta o autoincremento
 cursor.execute(
     f'DELETE FROM sqlite_sequence WHERE name="{TABLE_NAME}"'
 )
@@ -51,7 +53,10 @@ cursor.executemany(sql, (
     {'name': 'José', 'age': 35, 'weight': 80.5},
 ))
 conn.commit()
-print(sql)
+
 
 cursor.close()
 conn.close()
+
+if __name__ == '__main__':
+    print(sql)
