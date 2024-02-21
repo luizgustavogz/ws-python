@@ -6,14 +6,18 @@ conn = sqlite3.connect(DB_FILE)
 cursor = conn.cursor()
 
 cursor.execute(f'SELECT * FROM {TABLE_NAME}')
-
+print('Select all:')
 for row in cursor.fetchall():
-    #     _id = row[0]
-    #     name = row[1]
-    #     age = row[2]
-    #     weight = row[3]
     _id, name, age, weight = row
     print(_id, name, age, weight)
+
+print('---')
+
+cursor.execute(f'SELECT * FROM {TABLE_NAME} WHERE id = 3')
+print('Select one:')
+row = cursor.fetchone()
+_id, name, age, weight = row
+print(_id, name, age, weight)
 
 
 cursor.close()
