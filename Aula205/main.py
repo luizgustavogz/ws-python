@@ -10,6 +10,9 @@ TABLE_NAME = 'customers'
 conn = sqlite3.connect(DB_FILE)
 cursor = conn.cursor()
 
+# CRUD - Create  Read    Update  Delete
+# SQL -  INSERT  SELECT  UPDATE  DELETE
+
 # CUIDADO: Delete sem where
 cursor.execute(
     f'DELETE FROM {TABLE_NAME}'
@@ -50,7 +53,8 @@ cursor.execute(sql, {'name': 'Luiz', 'age': 22, 'weight': 95.5})
 cursor.executemany(sql, (
     {'name': 'João', 'age': 25, 'weight': 75.5},
     {'name': 'Maria', 'age': 30, 'weight': 60.5},
-    {'name': 'José', 'age': 35, 'weight': 80.5},
+    {'name': 'José', 'age': 35, 'weight': 80.3},
+    {'name': 'Joana', 'age': 63, 'weight': 55.78},
 ))
 conn.commit()
 
