@@ -65,6 +65,11 @@ if __name__ == '__main__':
     cursor.execute(f'DELETE FROM {TABLE_NAME} WHERE id IN (1,3)')
     conn.commit()
 
+    cursor.execute(
+        f'UPDATE {TABLE_NAME} SET name = "Wesley", weight = 67.58 WHERE id = 2'
+    )
+    conn.commit()
+
     cursor.execute(f'SELECT * FROM {TABLE_NAME}')
     for row in cursor.fetchall():
         _id, name, age, weight = row
