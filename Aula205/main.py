@@ -59,8 +59,16 @@ cursor.executemany(sql, (
 conn.commit()
 
 
-cursor.close()
-conn.close()
-
 if __name__ == '__main__':
     print(sql)
+
+    cursor.execute(f'DELETE FROM {TABLE_NAME} WHERE id IN (1,3)')
+    conn.commit()
+
+    cursor.execute(f'SELECT * FROM {TABLE_NAME}')
+    for row in cursor.fetchall():
+        _id, name, age, weight = row
+        print(_id, name, age, weight)
+
+    cursor.close()
+    conn.close()
