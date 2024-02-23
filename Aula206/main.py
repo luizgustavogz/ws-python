@@ -54,3 +54,30 @@ with conn:
         }
         cursor.execute(sql, data)
     conn.commit()
+
+    with conn.cursor() as cursor:
+        sql = (
+            f'INSERT INTO {TABLE_NAME} (name, age) '
+            'VALUES (%(nome)s, %(idade)s)'
+        )
+        # Iterando sobre um dicionário
+        data = (
+            {"nome": "Larissa", "idade": 24, },
+            {"nome": "Rogerio", "idade": 54, },
+            {"nome": "Rose", "idade": 77, },
+        )
+        cursor.executemany(sql, data)
+    conn.commit()
+
+    with conn.cursor() as cursor:
+        sql = (
+            f'INSERT INTO {TABLE_NAME} (name, age) '
+            'VALUES (%s, %s)'
+        )
+        # Tupla de tuplas
+        data = (
+            ("Gemini", 102, ),
+            ("Cortana", 3, ),
+        )
+        cursor.executemany(sql, data)
+    conn.commit()
