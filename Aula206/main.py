@@ -19,5 +19,10 @@ conn = pymysql.connect(
 
 with conn:
     with conn.cursor() as cursor:
-        # SQL
-        print(cursor)
+        cursor.execute(
+            'CREATE TABLE IF NOT EXISTS customers ('
+            'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, '
+            'name VARCHAR(50) NOT NULL, '
+            'age INT NOT NULL '
+            ')'
+        )
