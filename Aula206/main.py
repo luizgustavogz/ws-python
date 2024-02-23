@@ -35,16 +35,10 @@ with conn:
 
     with conn.cursor() as cursor:
         # INSERT INTO: Adicionando dados na tabela
-        cursor.execute(
+        sql = (
             f'INSERT INTO {TABLE_NAME} (name, age) '
-            'VALUES ("Luiz Gustavo", 21)'
+            'VALUES (%s, %s)'  # %s é um placeholder
         )
-        cursor.execute(
-            f'INSERT INTO {TABLE_NAME} (name, age) '
-            'VALUES ("João", 45)'
-        )
-        cursor.execute(
-            f'INSERT INTO {TABLE_NAME} (name, age) '
-            'VALUES ("Maria", 27)'
-        )
+        data = ('Luiz', 21)
+        cursor.execute(sql, data)
     conn.commit()
