@@ -42,3 +42,15 @@ with conn:
         data = ('Luiz', 21)
         cursor.execute(sql, data)
     conn.commit()
+
+    with conn.cursor() as cursor:
+        sql = (
+            f'INSERT INTO {TABLE_NAME} (name, age) '
+            'VALUES (%(nome)s, %(idade)s)'
+        )
+        data = {
+            "nome": "Gustavo",
+            "idade": 27,
+        }
+        cursor.execute(sql, data)
+    conn.commit()
