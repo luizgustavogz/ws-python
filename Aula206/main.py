@@ -3,13 +3,18 @@
 # Pypy: https://pypi.org/project/pymysql/
 # GitHub: https://github.com/PyMySQL/PyMySQL
 # pip install pymysql
+import os
+
 import pymysql
+import dotenv
+
+dotenv.load_dotenv()
 
 conn = pymysql.connect(
-    host='localhost',
-    user='usuario',
-    password='senha',
-    database='db_python',
+    host=os.environ['MYSQL_HOST'],
+    user=os.environ['MYSQL_USER'],
+    password=os.environ['MYSQL_PASSWORD'],
+    database=os.environ['MYSQL_DATABASE'],
 )
 
 with conn:
