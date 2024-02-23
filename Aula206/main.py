@@ -10,6 +10,8 @@ import dotenv
 
 dotenv.load_dotenv()
 
+TABLE_NAME = os.environ['MYSQL_TABLE']
+
 conn = pymysql.connect(
     host=os.environ['MYSQL_HOST'],
     user=os.environ['MYSQL_USER'],
@@ -19,10 +21,30 @@ conn = pymysql.connect(
 
 with conn:
     with conn.cursor() as cursor:
+        # CREATE TABLE: Criando a tabela
         cursor.execute(
-            'CREATE TABLE IF NOT EXISTS customers ('
+            f'CREATE TABLE IF NOT EXISTS {TABLE_NAME} ('
             'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, '
             'name VARCHAR(50) NOT NULL, '
             'age INT NOT NULL '
             ')'
         )
+        # TRUNCATE TABLE: Limpa a tabela por completo
+        cursor.execute(f'TRUNCATE TABLE {TABLE_NAME}')
+    conn.commit()
+
+    with conn.cursor() as cursor:
+        # INSERT INTO: Adicionando dados na tabela
+        cursor.execute(
+            f'INSERT INTO {TABLE_NAME} (name, age) '
+            'VALUES ("Luiz Gustavo", 21)'
+        )
+        cursor.execute(
+            f'INSERT INTO {TABLE_NAME} (name, age) '
+            'VALUES ("João", 45)'
+        )
+        cursor.execute(
+            f'INSERT INTO {TABLE_NAME} (name, age) '
+            'VALUES ("Maria", 27)'
+        )
+    conn.commit()
