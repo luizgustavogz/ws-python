@@ -1,3 +1,7 @@
+*.txt
+mysql_206
+chromedriver
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -156,5 +160,3 @@ cython_debug/
 *.jpg
 *.jpeg
 *.gif
-
-*.txt
