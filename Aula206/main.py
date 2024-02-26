@@ -5,8 +5,9 @@
 # pip install pymysql
 import os
 
-import pymysql
 import dotenv
+import pymysql
+import pymysql.cursors
 
 dotenv.load_dotenv()
 
@@ -17,6 +18,7 @@ conn = pymysql.connect(
     user=os.environ['MYSQL_USER'],
     password=os.environ['MYSQL_PASSWORD'],
     database=os.environ['MYSQL_DATABASE'],
+    cursorclass=pymysql.cursors.DictCursor,
 )
 
 with conn:
@@ -127,6 +129,13 @@ with conn:
         )
         cursor.execute(sql, ('Eleonor', 92, 5))
         cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
+
+        # for row in cursor.fetchall():
+        #     print(row)
+
+        # for row in cursor.fetchall():
+        #     _id, name, age = row
+        #     print(_id, name, age)
 
         for row in cursor.fetchall():
             print(row)
