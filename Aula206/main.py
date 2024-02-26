@@ -85,10 +85,12 @@ with conn:
         cursor.executemany(sql, data)
     conn.commit()
 
+    """
     # Lendo os dados da tabela com SELECT
     with conn.cursor() as cursor:
         min_id = int(input("Digite o valor mínimo para o id: "))
         max_id = int(input("Digite o valor máximo para o id: "))
+
         sql = (
             f'SELECT * FROM {TABLE_NAME} '
             'WHERE id BETWEEN %s AND %s '
@@ -99,4 +101,19 @@ with conn:
         result = cursor.fetchall()
 
         for row in result:
+            print(row)
+    """
+
+    # Apagando com DELETE, WHERE e placeholders
+    with conn.cursor() as cursor:
+        sql = (
+            f'DELETE FROM {TABLE_NAME} '
+            'WHERE id = %s '
+        )
+        cursor.execute(sql, (4,))
+        conn.commit()
+
+        cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
+
+        for row in cursor.fetchall():
             print(row)
