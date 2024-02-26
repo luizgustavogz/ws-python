@@ -33,8 +33,8 @@ with conn:
         cursor.execute(f'TRUNCATE TABLE {TABLE_NAME}')
     conn.commit()
 
+    # Inserindo um valor usando placeholder e um iterável
     with conn.cursor() as cursor:
-        # INSERT INTO: Adicionando dados na tabela
         sql = (
             f'INSERT INTO {TABLE_NAME} (name, age) '
             'VALUES (%s, %s)'  # %s é um placeholder
@@ -43,6 +43,7 @@ with conn:
         cursor.execute(sql, data)
     conn.commit()
 
+    # Inserindo um valor usando placeholder e um dicionário
     with conn.cursor() as cursor:
         sql = (
             f'INSERT INTO {TABLE_NAME} (name, age) '
@@ -55,6 +56,7 @@ with conn:
         cursor.execute(sql, data)
     conn.commit()
 
+    # Inserindo vários valores usando placeholder e uma tupla de dicionários
     with conn.cursor() as cursor:
         sql = (
             f'INSERT INTO {TABLE_NAME} (name, age) '
@@ -69,6 +71,7 @@ with conn:
         cursor.executemany(sql, data)
     conn.commit()
 
+    # Inserindo vários valores usando placeholder e uma tupla de tuplas
     with conn.cursor() as cursor:
         sql = (
             f'INSERT INTO {TABLE_NAME} (name, age) '
@@ -81,3 +84,13 @@ with conn:
         )
         cursor.executemany(sql, data)
     conn.commit()
+
+    # Lendo os dados da tabela com SELECT
+    with conn.cursor() as cursor:
+        sql = (f'SELECT * FROM {TABLE_NAME} ')
+        cursor.execute(sql)
+
+        result = cursor.fetchall()
+
+        for row in result:
+            print(row)
