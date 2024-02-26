@@ -18,8 +18,8 @@ conn = pymysql.connect(
     user=os.environ['MYSQL_USER'],
     password=os.environ['MYSQL_PASSWORD'],
     database=os.environ['MYSQL_DATABASE'],
-    # cursorclass=pymysql.cursors.DictCursor,
-    cursorclass=pymysql.cursors.SSDictCursor,
+    cursorclass=pymysql.cursors.DictCursor,
+    # cursorclass=pymysql.cursors.SSDictCursor,
 )
 
 with conn:
@@ -84,6 +84,7 @@ with conn:
         data = (
             ("Gemini", 102, ),
             ("Cortana", 3, ),
+            ("Luiz", 21, ),
         )
         cursor.executemany(sql, data)
     conn.commit()
@@ -113,7 +114,7 @@ with conn:
             f'DELETE FROM {TABLE_NAME} '
             'WHERE id = %s '
         )
-        cursor.execute(sql, (4,))
+        cursor.execute(sql, (1,))
         conn.commit()
 
         cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
@@ -129,7 +130,7 @@ with conn:
             'WHERE id = %s '
         )
         cursor.execute(sql, ('Eleonor', 92, 5))
-        cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
+        resultFromSelect = cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
 
         # for row in cursor.fetchall():
         #     print(row)
@@ -146,15 +147,32 @@ with conn:
         # for row in cursor.fetchall():
         #     print(row)
 
-        for row in cursor.fetchall_unbuffered():
+        # for row in cursor.fetchall_unbuffered():
+        #     print(row)
+
+        #     if row['id'] >= 3:
+        #         break
+
+        # print('\nFor 2: ')
+        # # cursor.scroll(-1)
+        # for row in cursor.fetchall_unbuffered():
+        #     print(row)
+
+        data = cursor.fetchall()
+
+        for row in data:
             print(row)
 
-            if row['id'] >= 3:
-                break
+        cursor.execute(
+            f'SELECT id FROM {TABLE_NAME} ORDER BY id DESC LIMIT 1'
+        )
+        lastIdFromSelect = cursor.fetchone()
 
-        print('\nFor 2: ')
-        # cursor.scroll(-1)
-        for row in cursor.fetchall_unbuffered():
-            print(row)
+        print('resultFromSelect:', resultFromSelect)
+        print('len(data):', len(data))
+        print('rowcount:', cursor.rowcount)
+        print('lastrowid:', cursor.lastrowid)
+        print('lastrowid na mão:', lastIdFromSelect)
+        print('rownumber:', cursor.rownumber)
 
     conn.commit()
