@@ -115,5 +115,19 @@ with conn:
 
         cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
 
+        # for row in cursor.fetchall():
+        #     print(row)
+
+    # Editando com UPDATE, WHERE e placeholders
+    with conn.cursor() as cursor:
+        sql = (
+            f'UPDATE {TABLE_NAME} '
+            'SET name = %s, age = %s '
+            'WHERE id = %s '
+        )
+        cursor.execute(sql, ('Eleonor', 92, 5))
+        cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
+
         for row in cursor.fetchall():
             print(row)
+    conn.commit()
