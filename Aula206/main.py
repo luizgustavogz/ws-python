@@ -87,9 +87,15 @@ with conn:
 
     # Lendo os dados da tabela com SELECT
     with conn.cursor() as cursor:
-        sql = (f'SELECT * FROM {TABLE_NAME} ')
-        cursor.execute(sql)
+        min_id = int(input("Digite o valor mínimo para o id: "))
+        max_id = int(input("Digite o valor máximo para o id: "))
+        sql = (
+            f'SELECT * FROM {TABLE_NAME} '
+            'WHERE id BETWEEN %s AND %s '
+        )
 
+        cursor.execute(sql, (min_id, max_id))
+        print(cursor.mogrify(sql, (min_id, max_id)))
         result = cursor.fetchall()
 
         for row in result:
