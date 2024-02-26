@@ -18,7 +18,8 @@ conn = pymysql.connect(
     user=os.environ['MYSQL_USER'],
     password=os.environ['MYSQL_PASSWORD'],
     database=os.environ['MYSQL_DATABASE'],
-    cursorclass=pymysql.cursors.DictCursor,
+    # cursorclass=pymysql.cursors.DictCursor,
+    cursorclass=pymysql.cursors.SSDictCursor,
 )
 
 with conn:
@@ -137,6 +138,23 @@ with conn:
         #     _id, name, age = row
         #     print(_id, name, age)
 
-        for row in cursor.fetchall():
+        # for row in cursor.fetchall():
+        #     print(row)
+
+        # print("\nCursor Scroll")
+        # cursor.scroll(0, mode='absolute')
+        # for row in cursor.fetchall():
+        #     print(row)
+
+        for row in cursor.fetchall_unbuffered():
             print(row)
+
+            if row['id'] >= 3:
+                break
+
+        print('\nFor 2: ')
+        # cursor.scroll(-1)
+        for row in cursor.fetchall_unbuffered():
+            print(row)
+
     conn.commit()
