@@ -1,3 +1,9 @@
+# Comandos django:
+# Para criar o projeto e jogar os arquivos do django dentro da pasta project
+#    -> django-admin startproject project .
+# Rodar o servidor
+#    -> python manage.py runserver
+
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
