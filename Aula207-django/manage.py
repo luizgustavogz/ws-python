@@ -3,6 +3,8 @@
 #    -> django-admin startproject project .
 # Rodar o servidor
 #    -> python manage.py runserver
+# Criar uma aplicação
+#    -> python manage.py startapp home
 
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""

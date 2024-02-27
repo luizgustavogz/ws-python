@@ -24,18 +24,18 @@ from django.http import HttpResponse
 # Django funciona no MVT (Model View Template), variação do MVC (Model View Controller)
 
 
-def indexView(request):
-    print('INDEX')
-    return HttpResponse('INDEX')
+def home(request):
+    print('HOME')
+    return HttpResponse('HOME')
 
 
-def blogView(request):
-    print('Request:', request)
-    return HttpResponse('Hello, World!')
+def blog(request):
+    print('BLOG')
+    return HttpResponse('BLOG')
 
 
 urlpatterns = [
-    path('', indexView),  # Nenhuma URL começa com "/"
-    path('blog/', blogView),
+    path('', home),  # Nenhuma URL começa com "/"
+    path('blog/', blog),
     path('admin/', admin.site.urls),
 ]
