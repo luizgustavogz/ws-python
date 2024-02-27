@@ -16,7 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.http import HttpResponse
+
+# HTTP: Request <-> HTTP Response
+# Django funciona no MVT (Model View Template), variação do MVC (Model View Controller)
+
+
+def myView(request):
+    print('Request:', request)
+    return HttpResponse('Hello, World!')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('blog/', myView),
 ]
