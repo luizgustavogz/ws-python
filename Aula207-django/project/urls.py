@@ -21,21 +21,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
-
-
-def home(request):
-    print('HOME')
-    return HttpResponse('HOME')
-
-
-def blog(request):
-    print('BLOG')
-    return HttpResponse('BLOG')
+from home.views import homeView
+from blog.views import blogView
 
 
 urlpatterns = [
-    path('', home),  # Nenhuma URL começa com "/"
-    path('blog/', blog),
+    path('', homeView),  # Nenhuma URL começa com "/"
+    path('blog/', blogView),
     path('admin/', admin.site.urls),
 ]
