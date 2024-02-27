@@ -1,3 +1,8 @@
+# HTTP Request <-> HTTP Response:
+# É um protocolo de comunicação entre Cliente e Servidor
+# Cliente faz a Request (Requisição) <-> Servidor devolve a Response (Resposta)
+# Django funciona no MVT (Model View Template), variação do MVC (Model View Controller)
+
 """
 URL configuration for project project.
 
@@ -17,11 +22,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponse
-
-# HTTP Request <-> HTTP Response:
-# É um protocolo de comunicação entre Cliente e Servidor
-# Cliente faz a Request (Requisição) <-> Servidor devolve a Response (Resposta)
-# Django funciona no MVT (Model View Template), variação do MVC (Model View Controller)
 
 
 def home(request):
