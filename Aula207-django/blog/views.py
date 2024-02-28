@@ -1,13 +1,17 @@
-from django.http import HttpResponse
-
-# from django.shortcuts import render
+from django.shortcuts import render
 
 
 def blogView(request):
     print('Blog')
-    return HttpResponse('Blog do app 1')
+    return render(
+        request,
+        'blog/index.html'
+    )
 
 
 def exemplo(request):
     print('Exemplo')
-    return HttpResponse('Exemplo do app')
+    return render(
+        request,
+        'blog/exemplo.html'
+    )
